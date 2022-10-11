@@ -41,6 +41,12 @@ app.get('/try-qs', (req, res) => {
     res.json(req.query);
 });
 
+const urlencodedParser = express.urlencoded({extended:false});
+// 把 urlencodedParser 當 middleware(中介軟體)
+app.post('/try-post', urlencodedParser, (req, res) => {
+    res.json(req.body);
+});
+
 app.use((req, res)=>{
     // res.type('text/plain');//純文字
     res.status(404).render('404.ejs');
