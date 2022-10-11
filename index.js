@@ -26,11 +26,16 @@ app.get('/abc', (req, res)=>{
     res.send(`<h2>abc</h2>`);
 });
 
-app.use((req, res)=>{
-    res.type('text/plain');//純文字
-    res.status(404).send('找不到頁面');
+app.get('/json-test', (req, res) => {
+    // res.send({ name: '小新1', age: 30 });
+    res.json({ name: '小新2', age: 30 });
 });
 
+app.use((req, res)=>{
+    // res.type('text/plain');//純文字
+    res.status(404).render('404.ejs');
+    // 404路由要放最後??
+});
 
 const port = process.env.SERVER_PORT || 3002;
 app.listen(port, () => {
