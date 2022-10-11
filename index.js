@@ -6,6 +6,11 @@ const app = express();
 app.set('view engine', 'ejs');
 
 
+// top-level-middleware
+app.use(express.urlencoded({extended:false}));
+app.use(express.json());
+
+// routes↓↓↓↓
 
 app.use(express.static('public'));
 //靜態資料夾
@@ -41,11 +46,20 @@ app.get('/try-qs', (req, res) => {
     res.json(req.query);
 });
 
-const urlencodedParser = express.urlencoded({extended:false});
-// 把 urlencodedParser 當 middleware(中介軟體)
-app.post('/try-post', urlencodedParser, (req, res) => {
+
+app.post('/try-post', (req, res) => {
     res.json(req.body);
 });
+app.get('/try-post-form', (req, res) => {
+    // res.render('try-post-form', {email:'', password:''});
+    res.render('try-post-form');
+});
+app.post('/try-post-form', (req, res) => {
+    res.render('try-post-form', req.body);
+});
+
+
+
 
 app.use((req, res)=>{
     // res.type('text/plain');//純文字
