@@ -3,6 +3,10 @@ const express = require('express');
 
 const app = express();
 
+app.set('view engine', 'ejs');
+
+
+
 app.use(express.static('public'));
 //靜態資料夾
 // app.use(express.static(__dirname + '/public'));
@@ -13,7 +17,9 @@ app.use(express.static('node_modules/bootstrap/dist'));
 
 
 app.get('/', (req, res)=>{
-    res.send(`<h2>你好</h2>`);
+    // res.send(`<h2>你好</h2>`);
+
+    res.render('main',{name: 'Shinder Da Da'})
 });
 
 app.get('/abc', (req, res)=>{
