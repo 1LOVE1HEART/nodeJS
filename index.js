@@ -13,7 +13,7 @@ app.use(express.static('public'));
 // !比較精準的路徑方法
 
 app.use(express.static('node_modules/bootstrap/dist'));
-// 會視為第2個根目錄
+// bootstrap的資料夾,會視為第2個根目錄
 
 
 app.get('/', (req, res)=>{
@@ -26,6 +26,12 @@ app.get('/abc', (req, res)=>{
     res.send(`<h2>abc</h2>`);
 });
 
+app.get('/sales-json', (req, res)=>{
+    const sales = require(__dirname + '/data/sales');
+    console.log(sales);
+    res.send(`<h2>sales-json</h2>`);
+});
+
 app.get('/json-test', (req, res) => {
     // res.send({ name: '小新1', age: 30 });
     res.json({ name: '小新2', age: 30 });
@@ -34,7 +40,7 @@ app.get('/json-test', (req, res) => {
 app.use((req, res)=>{
     // res.type('text/plain');//純文字
     res.status(404).render('404.ejs');
-    // 404路由要放最後??
+    // 404路由要放最後??可能前面的路徑並不精準,所以放前面會被導向404??
 });
 
 const port = process.env.SERVER_PORT || 3002;
