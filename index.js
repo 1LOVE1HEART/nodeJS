@@ -37,6 +37,10 @@ app.get('/json-test', (req, res) => {
     res.json({ name: '小新2', age: 30 });
 });
 
+app.get('/try-qs', (req, res) => {
+    res.json(req.query);
+});
+
 app.use((req, res)=>{
     // res.type('text/plain');//純文字
     res.status(404).render('404.ejs');
