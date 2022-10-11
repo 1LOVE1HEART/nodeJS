@@ -29,7 +29,7 @@ app.get('/abc', (req, res)=>{
 app.get('/sales-json', (req, res)=>{
     const sales = require(__dirname + '/data/sales');
     console.log(sales);
-    res.send(`<h2>sales-json</h2>`);
+    res.render(`sales-json`, {sales});
 });
 
 app.get('/json-test', (req, res) => {
