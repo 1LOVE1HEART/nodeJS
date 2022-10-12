@@ -71,6 +71,7 @@ app.post('/try-upload', upload.single('avatar'),(req, res) => {
 
 app.post('/photos/upload', upload.array('photos', 12), function (req, res, next) {
     res.json(req.files);
+    // array 多檔案
   })
 
 
