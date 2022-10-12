@@ -1,9 +1,12 @@
 require('dotenv').config();
 const express = require('express');
+const multer = require('multer');
+const upload = multer({dest: 'tmp_uploads/'});
 
 const app = express();
 
 app.set('view engine', 'ejs');
+// set方法要放最前面
 
 
 // top-level-middleware
@@ -25,7 +28,10 @@ app.get('/', (req, res)=>{
     // res.send(`<h2>你好</h2>`);
 
     res.render('main',{name: 'Shinder Da Da'})
+    // 樣板物件, ↑main樣板 ,然後要傳參數,樣板再解析回來
+    // 後端的"呈現"
 });
+
 
 app.get('/abc', (req, res)=>{
     res.send(`<h2>abc</h2>`);
@@ -58,13 +64,23 @@ app.post('/try-post-form', (req, res) => {
     res.render('try-post-form', req.body);
 });
 
+app.post('/try-upload', upload.single('avatar'),(req, res) => {
+    res.json(req.file);
+    // single單一檔案
+});
+
+app.post('/photos/upload', upload.array('photos', 12), function (req, res, next) {
+    res.json(req.files);
+  })
+
 
 
 
 app.use((req, res)=>{
+    // use 可以任意方式來拜訪
     // res.type('text/plain');//純文字
     res.status(404).render('404.ejs');
-    // 404路由要放最後??可能前面的路徑並不精準,所以放前面會被導向404??
+    // 404路由要放最後??順序問題?或可能前面其他的路由路徑設定並不精準,所以放前面會容易被導向404??
 });
 
 const port = process.env.SERVER_PORT || 3002;
