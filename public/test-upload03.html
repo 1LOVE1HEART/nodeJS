@@ -59,6 +59,7 @@
 
                 if(result && result.length){
                     str = result.map( obj=> item_tpl_func(obj) ).join('');
+                    // map()是回傳陣列, join('')將陣列轉成字串
                 }
 
                 document.querySelector('#photo-div').innerHTML = str;
