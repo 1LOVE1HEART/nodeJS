@@ -20,7 +20,7 @@ CRUD
     D: DELETE
 
 --------
-req.query  # query string (三元?傳值?)
+req.query  # query string (表單網址後面加?=的東西)
 req.body   # 通常是表單資料
 
 req.file
