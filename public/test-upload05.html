@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <style>
+    .photo {
+        display: inline-block;
+        position: relative;
+        width: 200px;
+        height: 200px;
+        border: 1px solid blue;
+
+    }
+    .photo img {
+        position: absolute;
+        width: 100%;
+    }
+    .photo .remove {
+        position: absolute;
+        color: red;
+        top: 0;
+        right: 0;
+    }
+
+    </style>
+</head>
+<body>
+    <form name="form1">
+        <input type="file" accept="image/*" name="photos"
+        multiple
+        onchange="upload()">
+    </form>
+    <div id="photo-div">
+       <span class=""></span>
+    </div>
+
+
+    <script>
+        let photoData =[];
+
+        const photo_div = document.querySelector('#photo-div')
+
+        const item_tpl_func = ({filename})=>`
+        <div class="photo" data-id="${filename}">
+            <img src="/uploads/${filename}" alt="" >
+            <span class="remove" onclick="removeItem(event)">
+                <i class="fa-solid fa-circle-xmark"></i>
+            </span>
+        </div>`;
+
+        // 生成畫面, 
+        function render(){
+            photo_div.innerHTML = photoData.map(obj=> item_tpl_func(obj) ).join(''); 
+        }
+
+
+        async function upload(){
+            const fd = new FormData(document.form1);
+
+            const r = await fetch('/try-upload2', {
+                method: 'POST',
+                body: fd
+            });
+
+            const result = await r.json();
+            // photoData = [...photoData, ...result];
+            photoData.push(...result);
+            render();
+
+        }
+
+        function removeItem(event) {
+            const item = event.target.closest('.photo');
+            const id = item.getAttribute('data-id');
+            console.log(id);
+            photoData = photoData.filter(obj => obj.filename!==id);
+            render();
+        }        
+    </script>
+</body>
+</html>
