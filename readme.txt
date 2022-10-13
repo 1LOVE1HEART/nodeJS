@@ -27,3 +27,9 @@ req.file
 req.files
 
 req.params # 路徑的參數(用在單純的前端傳參數,seo比較好)
+
+
+
+----------
+
+require過的router或套件 會參照已經執行過的,所以index主程式各router一直require同東西不會耗資源,10/13最後影片
