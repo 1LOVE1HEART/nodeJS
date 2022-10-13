@@ -58,6 +58,13 @@ app.get('/my-params/:action/:id?', (req, res) => {
     res.json(req.params);
 });
 
+app.get(/^\/m\/09\d{2}\-?\d{3}\-?\d{3}$/, (req, res) => {
+    let u = req.url.slice(3); // 切到剩m以後
+    u = u.split('?')[0]; //去掉 query string
+    u = u.split('-').join(''); // 去掉 '-'
+    res.json({mobile: u});
+});
+
 app.get('/try-qs', (req, res) => {
     res.json(req.query);
 });
