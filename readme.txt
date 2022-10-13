@@ -18,3 +18,12 @@ CRUD
     R: GET
     U: PUT整筆更換 / (PATCH某些屬性更換)
     D: DELETE
+
+--------
+req.query  # query string (三元?傳值?)
+req.body   # 通常是表單資料
+
+req.file
+req.files
+
+req.params # 路徑的參數(用在單純的前端傳參數,seo比較好)
