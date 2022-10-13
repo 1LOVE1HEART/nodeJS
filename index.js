@@ -65,6 +65,8 @@ app.get(/^\/m\/09\d{2}\-?\d{3}\-?\d{3}$/, (req, res) => {
     res.json({mobile: u});
 });
 
+app.use('/admin2',  require(__dirname + '/routes/admin2') );
+
 app.get('/try-qs', (req, res) => {
     res.json(req.query);
 });
