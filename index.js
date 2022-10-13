@@ -54,6 +54,10 @@ app.get('/json-test', (req, res) => {
     res.json({ name: '小新2', age: 30 });
 });
 
+app.get('/my-params/:action/:id?', (req, res) => {
+    res.json(req.params);
+});
+
 app.get('/try-qs', (req, res) => {
     res.json(req.query);
 });
