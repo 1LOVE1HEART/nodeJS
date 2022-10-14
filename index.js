@@ -67,6 +67,16 @@ app.get(/^\/m\/09\d{2}\-?\d{3}\-?\d{3}$/, (req, res) => {
 
 app.use('/admin2',  require(__dirname + '/routes/admin2') ); // 路由模組化,方便管理,可以抽換?
 
+const myMiddle = (req, res, next) =>{
+    res.locals = {...res.locals, Shinder:'good morning'}; // locals是原本的物件,這個方法是'...'解構然後可以再放多個物件
+    res.locals.cat = 'meow~'; //只增放1個
+    next();
+};
+
+app.get('/admin2', [myMiddle],  (req, res)=>{
+     res.json(res.locals);
+});
+
 app.get('/try-qs', (req, res) => {
     res.json(req.query);
 });
