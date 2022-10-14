@@ -8,7 +8,8 @@ res.render()
 放樣板檔頭 
 res.json()
 json格式
-
+res.redirect()
+重新導向
 
 --------
 RESTful API
