@@ -2,8 +2,10 @@ require('dotenv').config();
 const { doesNotThrow } = require('assert');
 const express = require('express');
 const session = require('express-session');
+const MysqlStore = require('express-mysql-session')(session);
 const moment = require('moment-timezone');
 const db = require(__dirname + '/modules/db_connect2.js');
+const sessionStore = new MysqlStore({}, db);
 
 // const multer = require('multer');
 // const upload = multer({dest: 'tmp_uploads/'});
@@ -24,6 +26,7 @@ app.use(session({
     saveUninitialized: false,
     resave: false,
     secret: "eeedkof13efec",
+    store: sessionStore,
     cookie: {
         maxAge: 1_200_000,
         // 可以加_底線判讀
@@ -174,6 +177,20 @@ app.get('/try-moment', (req, res) => {
 app.get('/try-db', async (req, res) => {
     const [rows] = await db.query("SELECT * FROM address_book LIMIT 5");
     res.json(rows);
+});
+
+app.get('/try-db-add', async (req, res) => {
+    const name = '辣個男人';
+    const email = 'theman@gmail.com';
+    const mobile = '0918555666';
+    const birthday = '1998-5-21';
+    const address = '宜蘭縣';
+    const sql = "INSERT INTO `address_book`(`name`, `email`, `mobile`, `birthday`, `address`, `created_at`) VALUES (?, ?, ?, ?, ?,NOW())";
+
+
+
+    const [result] = await db.query(sql,[name, email, mobile, birthday, address]);
+    res.json(result);
 });
 
 
