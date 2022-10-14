@@ -1,6 +1,8 @@
 require('dotenv').config();
+const { doesNotThrow } = require('assert');
 const express = require('express');
 const session = require('express-session');
+const moment = require('moment-timezone');
 
 // const multer = require('multer');
 // const upload = multer({dest: 'tmp_uploads/'});
@@ -126,9 +128,45 @@ app.post('/try-upload2', upload.array('photos'), async (req, res) => {
 
 
 app.get('/try-session', (req, res) => {
-    req.session.aaa ||=0; // 預設值 
+    req.session.aaa ||= 0; // 預設值 
     req.session.aaa++;
     res.json(req.session);
+});
+
+
+app.get('/try-date', (req, res) => {
+    const now = new Date;
+    const m = moment();
+    const themoment = moment('06/10/22', 'YYYY-MM-DD');
+
+    res.send({
+        t1: now,
+        // "t1": "2022-10-14T02:59:53.581Z",
+        t2: now.toString(),
+        // "t2": "Fri Oct 14 2022 10:59:53 GMT+0800 (台北標準時間)",
+        t3: now.toDateString(),
+        // "t3": "Fri Oct 14 2022",
+        t4: now.toLocaleString(),
+        // "t4": "2022/10/14 上午10:59:53",
+        m1: m.format(),
+        // "m1": "2022-10-14T10:59:53+08:00",
+        m2: m.format('YYYY-MM-DD HH:mm:ss')
+        // "m2": "2022-10-14 10:59:53" 
+    });
+});
+
+app.get('/try-moment', (req, res) => {
+    const fm = 'YYYY-MM-DD HH:mm:ss';
+    const m = moment('06/10/22', 'YYYY-MM-DD');
+
+    res.json({
+        m,
+        // "m": "2006-10-21T16:00:00.000Z", 當地
+        m1: m.format(fm),
+        // "m1": "2006-10-22 00:00:00",
+        m2: m.tz('Europe/London').format(fm)
+        // "m2": "2006-10-21 17:00:00" 日光節約+1hr
+    });
 });
 
 
