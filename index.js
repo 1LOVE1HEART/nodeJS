@@ -21,7 +21,11 @@ app.use(session({
     saveUninitialized: false,
     resave: false,
     secret: "eeedkof13efec",
-    cookie: {}
+    cookie: {
+        maxAge: 1_200_000,
+        // 可以加_底線判讀
+        // T02:58:07.298Z ,T時間(區隔日期) Z格林威治時區UTC 
+    }
 }));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
