@@ -197,6 +197,20 @@ app.get('/try-db-add', async (req, res) => {
 });
 
 
+app.get('/try-db-add2', async (req, res) => {
+    const name = '辣個男人';
+    const email = 'theman@gmail.com';
+    const mobile = '0918555666';
+    const birthday = '1998-5-21';
+    const address = '宜蘭縣';
+    const sql = "INSERT INTO `address_book` SET ?";
+    // 不建議這樣用
+
+    const [result] = await db.query(sql,[{name, email, mobile, birthday, address, created_at: new Date()}]);
+    // sid會自己填入,  creat_time不能為空值,要自己new
+    res.json(result);
+});
+
 app.use((req, res) => {
     // use 可以任意方式來拜訪
     // res.type('text/plain');//純文字
