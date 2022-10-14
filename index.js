@@ -211,6 +211,10 @@ app.get('/try-db-add2', async (req, res) => {
     res.json(result);
 });
 
+
+
+app.use('/ab',  require(__dirname + '/routes/address-book')) ;
+
 app.use((req, res) => {
     // use 可以任意方式來拜訪
     // res.type('text/plain');//純文字
