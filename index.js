@@ -191,6 +191,9 @@ app.get('/try-db-add', async (req, res) => {
 
     const [result] = await db.query(sql,[name, email, mobile, birthday, address]);
     res.json(result);
+
+    // const [{insertId, affectedRows}] = await db.query(sql, [name, email, mobile, birthday, address]);
+    // res.json({insertId, affectedRows});
 });
 
 
