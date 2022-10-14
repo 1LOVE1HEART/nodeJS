@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const session = require('express-session');
 
 // const multer = require('multer');
 // const upload = multer({dest: 'tmp_uploads/'});
@@ -16,6 +17,12 @@ app.set('view engine', 'ejs');
 
 
 // top-level-middleware
+app.use(session({
+    saveUninitialized: false,
+    resave: false,
+    secret: "eeedkof13efec",
+    cookie: {}
+}));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -111,6 +118,14 @@ app.post('/try-upload2', upload.array('photos'), async (req, res) => {
     res.json(req.files);
     // array 多檔案
 })
+
+
+
+app.get('/try-session', (req, res) => {
+    req.session.aaa ||=0; // 預設值 
+    req.session.aaa++;
+    res.json(req.session);
+});
 
 
 
