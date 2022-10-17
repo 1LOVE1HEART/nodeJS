@@ -8,12 +8,13 @@ router.use((req, res, next)=>{
 
 // CRUD
 
-router.get('/', async (req, res)=>{
+router.get(['/', '/list'], async (req, res)=>{
     const perPage = 20;
     let page = +req.query.page || 1;
-    // +加號把字串轉數字
+    // +加號把字串轉數字(型別轉換)
     if(page<1){
         return res.redirect(req.baseUrl);
+        // 返回,不像php結束
     }
     const t_sql = "SELECT COUNT(1) totalRows FROM address_book";
     // totalRows = num(sid)可以自己改
@@ -31,7 +32,8 @@ router.get('/', async (req, res)=>{
         [rows] = await db.query(sql);
     }
     
-    res.json({totalRows, totalPages, perPage, page, rows});
+    // res.json({totalRows, totalPages, perPage, page, rows});
+    res.render('address-book/list',{totalRows, totalPages, perPage, page, rows});
 });
 
 

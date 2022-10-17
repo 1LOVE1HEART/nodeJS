@@ -1,0 +1,42 @@
+<%- include('./../parts/html-head') %>
+<%- include('./../parts/navbar') %>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">name</th>
+                        <th scope="col">mobile</th>
+                        <th scope="col">email</th>
+                        <th scope="col">birthday</th>
+                        <th scope="col">address</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% for(let r of rows ){ %>  
+                      <tr>
+                        
+                        <td><%= r.sid %>></td>
+                        <td><%= r.name %>></td>
+                        <td><%= r.mobile %>></td>
+                        <td><%= r.email %>></td>
+                        <td><%= r.birthday %>></td>
+                        <td><%= r.address %>></td>
+                        
+                      </tr>
+                      <% } %>
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                
+            </div>
+        </div>
+    </div>
+<%- include('./../parts/scripts') %>
+<%- include('./../parts/html-foot') %>
