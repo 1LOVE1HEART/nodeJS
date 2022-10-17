@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <table class="table">
+                <table class="table table-bordered">
                     <thead>
                       <tr>
                         <th scope="col">#</th>
@@ -18,12 +18,12 @@
                       <% for(let r of rows ){ %>  
                       <tr>
                         
-                        <td><%= r.sid %>></td>
-                        <td><%= r.name %>></td>
-                        <td><%= r.mobile %>></td>
-                        <td><%= r.email %>></td>
-                        <td><%= r.birthday %>></td>
-                        <td><%= r.address %>></td>
+                        <td><%= r.sid %></td>
+                        <td><%= r.name %></td>
+                        <td><%= r.mobile %></td>
+                        <td><%= r.email %></td>
+                        <td><%= toDatetString(r.birthday) %></td>
+                        <td><%= r.address %></td>
                         
                       </tr>
                       <% } %>

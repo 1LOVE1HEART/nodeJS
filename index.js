@@ -36,6 +36,16 @@ app.use(session({
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+app.use((req, res, next)=>{
+    // 放在locals.會進到template(address的樣板頁面?)
+    // 自己定義的 template helper functions
+    res.locals.toDateString = (d)=> moment(d).format('YYYY-MM-DD');
+    res.locals.toDatetimeString = (d)=> moment(d).format('YYYY-MM-DD  HH:mm:ss');
+    
+
+    next();
+})
+
 // routes↓↓↓↓
 
 app.use(express.static('public'));
