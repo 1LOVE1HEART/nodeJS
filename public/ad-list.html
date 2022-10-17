@@ -9,9 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
         integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.5/dayjs.min.js"
-        integrity="sha512-Ot7ArUEhJDU0cwoBNNnWe487kjL5wAOsIYig8llY/l0P2TUFwgsAHVmrZMHsT8NGo+HwkjTJsNErS6QqIkBxDw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>Document</title>
 </head>
 
@@ -109,50 +106,88 @@
             `;
         }
 
-        const search = location.search;
-        fetch('/ab/api' + search)
-            .then(r => r.json())
-            .then(result => {
-                console.log(result);
-                p_continer.innerHTML = renderPagi(result);
-                t_continer.innerHTML = renderTable(result);
-            })
+        
 
+        // 重整精簡最底下3個註解掉的function
+        async function getData(){
+            let usp = new URLSearchParams(location.search);
+            // 抓現有網址搜尋參數
 
-        function doSearch(event) {
-            event.preventDefault(); // 不讓表單送出,我們自己做下面的送出(不會刷新頁面)
+            const r = await fetch('/ab/api?'+usp.toString());
+
+            const result = await r.json();
+            console.log(result);
+            p_continer.innerHTML = renderPagi(result);
+            t_continer.innerHTML = renderTable(result);
+        }
+
+        const usp = new URLSearchParams(location.search);
+        if(usp.get('search')) document.forms[0].search.value =usp.get('search');
+        getData();
+
+        function doSearch(event){
+            event.preventDefault(); // 不讓表單送出
             const f = event.currentTarget;
-
-            console.log({ search: f.search.value });
-            const usp = new URLSearchParams({ search: f.search.value });
-
-            history.pushState('', '', '?' + usp.toString());
-            console.log(location.search);
-
-            fetch('/ab/api' + location.search)
-                .then(r => r.json())
-                .then(result => {
-                    console.log(result);
-                    p_continer.innerHTML = renderPagi(result);
-                    t_continer.innerHTML = renderTable(result);
-                })
+            const usp = new URLSearchParams({search: f.search.value});
+            history.pushState('','', '?'+usp.toString());
+            getData();
         }
 
-        function gotoPage(p) {
+        function gotoPage(p){
+            const usp = new URLSearchParams(location.search);
+            usp.set('page', p);
+
+            history.pushState('','', '?'+usp.toString());
+            getData();
+        }
+
+        window.addEventListener('popstate', function(){
+            console.log(location.search)
+            const usp = new URLSearchParams(location.search);
+            if(usp.get('search')) {
+                document.forms[0].search.value = usp.get('search');
+            }
+            else {
+                document.forms[0].search.value = '';
+            }
+            getData();
+        })
+
+
+        // function doSearch(event) {
+        //     event.preventDefault(); // 不讓表單送出,我們自己做下面的送出(不會刷新頁面)
+        //     const f = event.currentTarget;
+
+        //     console.log({ search: f.search.value });
+        //     const usp = new URLSearchParams({ search: f.search.value });
+
+        //     history.pushState('', '', '?' + usp.toString());
+        //     console.log(location.search);
+
+        //     fetch('/ab/api' + location.search)
+        //         .then(r => r.json())
+        //         .then(result => {
+        //             console.log(result);
+        //             p_continer.innerHTML = renderPagi(result);
+        //             t_continer.innerHTML = renderTable(result);
+        //         })
+        // }
+
+        // function gotoPage(p) {
             
-            const usp = new URLSearchParams({ page: p });
+        //     const usp = new URLSearchParams({ page: p });
 
-            history.pushState('', '', '?' + usp.toString());
-            console.log(location.search);
+        //     history.pushState('', '', '?' + usp.toString());
+        //     console.log(location.search);
 
-            fetch('/ab/api' + location.search)
-                .then(r => r.json())
-                .then(result => {
-                    console.log(result);
-                    p_continer.innerHTML = renderPagi(result);
-                    t_continer.innerHTML = renderTable(result);
-                })
-        }
+        //     fetch('/ab/api' + location.search)
+        //         .then(r => r.json())
+        //         .then(result => {
+        //             console.log(result);
+        //             p_continer.innerHTML = renderPagi(result);
+        //             t_continer.innerHTML = renderTable(result);
+        //         })
+        // }
     </script>
 </body>
 
