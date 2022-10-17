@@ -8,7 +8,8 @@ router.use((req, res, next) => {
 
 // CRUD
 
-router.get(['/', '/list'], async (req, res) => {
+// router.get(['/', '/list'], async (req, res) => {
+    async function getListData(req){
     const perPage = 20;
     let page = +req.query.page || 1;
     // +加號把字串轉數字(型別轉換)
@@ -49,9 +50,21 @@ router.get(['/', '/list'], async (req, res) => {
     }
 
     // res.json({totalRows, totalPages, perPage, page, rows});
-    res.render('address-book/list', { totalRows, totalPages, perPage, page, rows });
+//     res.render('address-book/list', { totalRows, totalPages, perPage, page, rows, search, query: req.query});
+// });
+    return {totalRows, totalPages, perPage, page, rows, search, query: req.query};
+    }
+
+    
+router.get(['/', '/list'], async (req, res)=>{
+    const data = await getListData(req);
+
+    res.render('address-book/list', data);
 });
 
+router.get(['/api', '/api/list'], async (req, res)=>{
+    res.json(await getListData(req));
+});
 
 module.exports = router;
 
