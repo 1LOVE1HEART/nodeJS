@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="/https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <title>Document</title>
 </head>
 
@@ -24,65 +24,53 @@
             </div>
         </div>
         <div class="row">
-            <div class="col">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="?search=%E8%8A%B1&amp;page=0">
-                                <i class="fa-solid fa-circle-arrow-left"></i>
-                            </a>
-                        </li>
-
-                        <li class="page-item active">
-                            <a class="page-link" href="?search=%E8%8A%B1&amp;page=1">1</a>
-                        </li>
-
-
-                        <li class="page-item ">
-                            <a class="page-link" href="?search=%E8%8A%B1&amp;page=2">
-                                <i class="fa-solid fa-circle-arrow-right"></i></a>
-                        </li>
-                    </ul>
-                </nav>
+            <div class="col pagi-container">
             </div>
         </div>
 
         <div class="row">
             <div class="col table-container">
-                <!--
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">姓名</th>
-                            <th scope="col">手機</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">生日</th>
-                            <th scope="col">地址</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                        </tr>
-                    </tbody>
-
-                </table>
-            -->
             </div>
         </div>
 
     </div>
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script>
-        const t_container = document.querySelector('.table-container');
-        const p_container = document.querySelector('.pagi-container');
+        const t_continer = document.querySelector('.table-container');
+        const p_continer = document.querySelector('.pagi-container');
 
+        function renderPagi({page, totalPages}){
+
+            return `
+            <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">
+                                <i class="fa-solid fa-circle-arrow-left"></i>
+                            </a>
+                        </li>
+                        ${
+                            Array(11).fill(1).map((el, i)=>{
+                                const p = page-5+i;
+                                if(p<1 || p>totalPages) return '';
+                                return `
+                                <li class="page-item ${ p===page ? 'active' : ''}">
+                                    <a class="page-link" href="#">${p}</a>
+                                </li>
+                                `
+                            }).join('')
+                        }
+                        
+
+
+                        <li class="page-item ">
+                            <a class="page-link" href="#">
+                                <i class="fa-solid fa-circle-arrow-right"></i></a>
+                        </li>
+                    </ul>
+                </nav>
+            `;
+        }
 
         function renderTable({rows}) {
             return `
@@ -115,11 +103,13 @@
                 </table>
             `;
         }
+
         fetch('/ab/api')
         .then(r=>r.json())
         .then(result=>{
             console.log(result);
-            document.querySelector('.table-container').innerHTML = renderTable(result);
+            p_continer.innerHTML = renderPagi(result);
+            t_continer.innerHTML = renderTable(result);
         })
         
     </script>
