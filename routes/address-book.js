@@ -19,9 +19,15 @@ router.get(['/', '/list'], async (req, res) => {
 
     let search = req.query.search ? req.query.search.trim() : '';
     // trim頭尾空白
-    let where = ` WHERE 1 `; // 1是true 1後面要空格,where 資料搜尋的火車頭??讓後面條件可以接下去??
+    let where = ` WHERE 1 `; // 1指true 1後面要空格,where 資料搜尋的火車頭??讓後面條件可以接下去??
     if (search) {
-        where += ` AND \`name\` LIKE ${db.escape('%' + search + '%')} `;
+        where += ` AND 
+        (
+            \`name\` LIKE ${db.escape('%' + search + '%')}
+            OR
+            \`address\` LIKE ${db.escape('%' + search + '%')}
+        )`;
+        // where += ` AND \`name\` LIKE ${db.escape('%' + search + '%')} `;
     }
     // res.type('text/plain; charset=utf-8');
     // return res.end(where);
