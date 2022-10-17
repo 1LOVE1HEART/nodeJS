@@ -3,6 +3,28 @@
     <div class="container">
         <div class="row">
             <div class="col">
+                
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#">
+                                <i class="fa-solid fa-circle-arrow-left"></i>
+                            </a>
+                        </li>
+                        <% for(let i=page-5; i<=page+5; i++)
+                            if(i>=1 && i<=totalPages) {
+                            %>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                        </li>
+                        <% } %>
+                        <li class="page-item">
+                            <a class="page-link" href="#">
+                                <i class="fa-solid fa-circle-arrow-right"></i></a>
+                        </li>
+                    </ul>
+                </nav>
+
                 <table class="table table-bordered">
                     <thead>
                       <tr>
@@ -22,7 +44,7 @@
                         <td><%= r.name %></td>
                         <td><%= r.mobile %></td>
                         <td><%= r.email %></td>
-                        <td><%= toDatetString(r.birthday) %></td>
+                        <td><%= toDateString(r.birthday) %></td>
                         <td><%= r.address %></td>
                         
                       </tr>
