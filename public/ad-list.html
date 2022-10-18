@@ -107,6 +107,42 @@
         }
 
         
+        // async function getDataAndRender(){
+        //     const usp = new URLSearchParams(location.search);
+        //     if(usp.get('search')) {
+        //         document.forms[0].search.value = usp.get('search');
+        //     } else {
+        //         document.forms[0].search.value = '';
+        //     }
+
+        //     const r = await fetch('/ab/api?'+usp.toString());
+        //     const result = await r.json();
+        //     console.log(result);
+        //     p_continer.innerHTML = renderPagi(result);
+        //     t_continer.innerHTML = renderTable(result);
+        // }
+
+        // getDataAndRender(); // 一開始呼叫
+
+        // function doSearch(event){
+        //     event.preventDefault(); // 不讓表單送出
+        //     const f = event.currentTarget;
+        //     const usp = new URLSearchParams({search: f.search.value});
+        //     history.pushState('','', '?'+usp.toString());
+        //     getDataAndRender();
+        // }
+
+        // function gotoPage(p){
+        //     const usp = new URLSearchParams(location.search);
+        //     usp.set('page', p);
+
+        //     history.pushState('','', '?'+usp.toString());
+        //     getDataAndRender();
+        // }
+
+        // window.addEventListener('popstate', getDataAndRender);
+
+
 
         // 重整精簡最底下3個註解掉的function
         async function getData(){
