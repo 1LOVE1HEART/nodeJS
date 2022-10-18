@@ -43,18 +43,50 @@
     </div>
 <%- include('./../parts/scripts') %>
 <script>
+    // json
     function checkForm(evt) {
         evt.preventDefault();
 
         const fd = new FormData(document.form1);
-
-        fetch('', {
-            method: 'POST',
-            body: fd
-        }).then(r=>r.json())
-        .then(result=>{
-            console.log(result);
-        })
+        for(let [key, value] of fd){
+            console.log({key, value})
+        }
     }
+
+
+    // urlencoded
+    // function checkForm(evt) {
+    // evt.preventDefault();
+
+    // const fd = new FormData(document.form1);
+    // const usp = new URLSearchParams(fd);
+    // console.log(usp.toString());
+
+    // fetch('', {
+    //     method: 'POST',
+    //     body: usp.toString(),
+    //     headers: {
+    //         'Content-Type': 'application/x-www-form-urlencoded'
+    //     }
+    //     }).then(r=>r.json())
+    //     .then(result=>{
+    //         console.log(result);
+    //     })
+    // }
+
+    // multipart 上傳檔案(照片)就只有這種
+    // function checkForm(evt) {
+    //     evt.preventDefault();
+
+    //     const fd = new FormData(document.form1);
+
+    //     fetch('', {
+    //         method: 'POST',
+    //         body: fd
+    //     }).then(r=>r.json())
+    //     .then(result=>{
+    //         console.log(result);
+    //     })
+    // }
 </script>
 <%- include('./../parts/html-foot') %>
