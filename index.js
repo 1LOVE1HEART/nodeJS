@@ -7,6 +7,8 @@ const moment = require('moment-timezone');
 const db = require(__dirname + '/modules/db_connect2.js');
 const sessionStore = new MysqlStore({}, db);
 const cors = require('cors');
+const axios = require('axios');
+
 
 // const multer = require('multer');
 // const upload = multer({dest: 'tmp_uploads/'});
@@ -250,6 +252,14 @@ app.get('/logout', (req, res)=>{
 
     res.redirect('/');
 });
+
+
+app.get('/yahoo', async (req, res)=>{
+    const response = await axios.get('https://tw.yahoo.com/');
+    res.send(response.data);
+});
+
+
 
 app.use((req, res) => {
     // use 可以任意方式來拜訪
