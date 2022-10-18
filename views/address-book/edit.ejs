@@ -16,25 +16,24 @@
 
                             <div class="mb-3">
                                 <label for="email" class="form-label">email</label>
-                                <input type="email" class="form-control" id="email" name="email">
+                                <input type="email" class="form-control" id="email" name="email" value="<%= email %>">
                             </div>
                             <div class="mb-3">
                                 <label for="mobile" class="form-label">mobile</label>
                                 <input type="text" class="form-control" id="mobile" name="mobile"
-                                    pattern="09\d{2}-?\d{3}-?\d{3}">
+                                    pattern="09\d{2}-?\d{3}-?\d{3}" value="<%= mobile %>">
                             </div>
                             <div class="mb-3">
                                 <label for="birthday" class="form-label">birthday</label>
-                                <input type="date" class="form-control" id="birthday" name="birthday">
+                                <input type="date" class="form-control" id="birthday" name="birthday" value="<%= toDateString(birthday) %>">
                             </div>
                             <div class="mb-3">
                                 <label for="address" class="form-label">address</label>
                                 <textarea class="form-control" name="address" id="address" cols="50"
-                                    rows="3"></textarea>
+                                    rows="3"><%= address %></textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary">新增</button>
-                            <input type="hidden" name="test" value="123">
-                            <input type="hidden" name="test" value="456">
+                            <button type="submit" class="btn btn-primary">修改</button>
+                           
                         </form>
                     </div>
                 </div>
@@ -45,68 +44,26 @@
     </div>
 <%- include('./../parts/scripts') %>
 <script>
-    // json
-    // function checkForm(evt) {
-    //     evt.preventDefault();
-
-    //     const fd = new FormData(document.form1);
-    //     for(let [k, v] of fd){
-    //         console.log({k, v});
-    //         data[k] = v; // 缺點: 不可以有重複名稱的欄位(上面做了2個隱藏同name的input,只會送出最後1個)
-    //     }
-    //     fetch('', {
-    //         method: 'POST',
-    //         body: JSON.stringify(data),
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         }
-    //             }).then(r=>r.json())
-    //             .then(result=>{
-    //             console.log(result);
-    //     })
-    // }
-
-
     // urlencoded
-    // function checkForm(evt) {
-    // evt.preventDefault();
-
-    // const fd = new FormData(document.form1);
-    // const usp = new URLSearchParams(fd);
-    // console.log(usp.toString());
-
-    // fetch('', {
-    //     method: 'POST',
-    //     body: usp.toString(),
-    //     headers: {
-    //         'Content-Type': 'application/x-www-form-urlencoded'
-    //     }
-    //     }).then(r=>r.json())
-    //     .then(result=>{
-    //         console.log(result);
-    //     })
-    // }
-
-    // multipart 上傳檔案(照片)就只有這種
     function checkForm(evt) {
-        evt.preventDefault();
-
-        // TODO: 檢查欄位的格式
-
-        const fd = new FormData(document.form1);
-
-        fetch('', {
-            method: 'POST',
-            body: fd
-        }).then(r=>r.json())
-        .then(result=>{
-            console.log(result);
-            if(result.success){
-                location.href = './';
-            } else {
-                alert('無法新增');
+                evt.preventDefault();
+                const fd = new FormData(document.form1);
+                const usp = new URLSearchParams(fd);
+                fetch('', {
+                    method: 'PUT',
+                    body: usp.toString(),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).then(r=>r.json())
+                .then(result=>{
+                    console.log(result);
+                    if(result.success){
+                        alert('修改完成');
+                    } else {
+                        alert('資料沒有修改');
+                    }
+                })
             }
-        })
-    }
 </script>
 <%- include('./../parts/html-foot') %>
