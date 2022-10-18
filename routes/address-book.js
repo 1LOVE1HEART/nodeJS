@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require(__dirname + '/../modules/db_connect2.js');
+const upload = require(__dirname + '/../modules/upload-img')
 
 router.use((req, res, next) => {
     next();
@@ -12,8 +13,8 @@ router.use((req, res, next) => {
 router.get('/add', async (req, res)=>{
     res.render('address-book/add')
 });
-router.post('/add', async (req, res)=>{
-    
+router.post('/add', upload.none(), async (req, res)=>{
+    res.json(req.body);
 });
 
 
