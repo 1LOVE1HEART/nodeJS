@@ -26,7 +26,7 @@ app.set('view engine', 'ejs');
 const corsOptions = {
     credentials: true,
     origin: function (origin, callback) {
-        console.log({origin});
+        console.log({ origin });
         callback(null, true);
     }
 };
@@ -46,12 +46,13 @@ app.use(session({
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use((req, res, next)=>{
+app.use((req, res, next) => {
     // 放在locals.會進到template(address的樣板頁面?)
     // 自己定義的 template helper functions
-    res.locals.toDateString = (d)=> moment(d).format('YYYY-MM-DD');
-    res.locals.toDatetimeString = (d)=> moment(d).format('YYYY-MM-DD  HH:mm:ss');
+    res.locals.toDateString = (d) => moment(d).format('YYYY-MM-DD');
+    res.locals.toDatetimeString = (d) => moment(d).format('YYYY-MM-DD  HH:mm:ss');
     res.locals.title = 'Time Travel';
+    res.locals.session = req.session;
 
     next();
 })
@@ -209,7 +210,7 @@ app.get('/try-db-add', async (req, res) => {
 
 
 
-    const [result] = await db.query(sql,[name, email, mobile, birthday, address]);
+    const [result] = await db.query(sql, [name, email, mobile, birthday, address]);
     res.json(result);
 
     // const [{insertId, affectedRows}] = await db.query(sql, [name, email, mobile, birthday, address]);
@@ -226,14 +227,29 @@ app.get('/try-db-add2', async (req, res) => {
     const sql = "INSERT INTO `address_book` SET ?";
     // 不建議這樣用
 
-    const [result] = await db.query(sql,[{name, email, mobile, birthday, address, created_at: new Date()}]);
+    const [result] = await db.query(sql, [{ name, email, mobile, birthday, address, created_at: new Date() }]);
     // sid會自己填入,  creat_time不能為空值,要自己new
     res.json(result);
 });
 
 
 
-app.use('/ab',  require(__dirname + '/routes/address-book')) ;
+app.use('/ab', require(__dirname + '/routes/address-book'));
+
+app.get('/fake-login', (req, res)=>{
+    req.session.admin = {
+        id: 12,
+        account: 'shinder',
+        nickname: '小新'
+    };
+
+    res.redirect('/');
+});
+app.get('/logout', (req, res)=>{
+    delete req.session.admin;
+
+    res.redirect('/');
+});
 
 app.use((req, res) => {
     // use 可以任意方式來拜訪
