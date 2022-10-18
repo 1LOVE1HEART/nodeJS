@@ -8,6 +8,16 @@ router.use((req, res, next) => {
 
 // CRUD
 
+// 新增資料
+router.get('/add', async (req, res)=>{
+    res.render('address-book/add')
+});
+router.post('/add', async (req, res)=>{
+    
+});
+
+
+
 // router.get(['/', '/list'], async (req, res) => {
     async function getListData(req){
     const perPage = 20;
