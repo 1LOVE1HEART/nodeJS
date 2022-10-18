@@ -23,7 +23,14 @@ app.set('view engine', 'ejs');
 
 
 // top-level-middleware
-app.use(cors());
+const corsOptions = {
+    credentials: true,
+    origin: function (origin, callback) {
+        console.log({origin});
+        callback(null, true);
+    }
+};
+app.use(cors(corsOptions));
 
 app.use(session({
     saveUninitialized: false,

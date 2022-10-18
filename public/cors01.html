@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <pre id="info"></pre>
+
+    <script>
+        fetch('//localhost:3001/try-session', {
+            credentials: "include"
+        })
+            .then(r => r.json())
+            .then(result => {
+                info.innerText = JSON.stringify(result, null, 4);
+                // 不會像localhost,try-session刷新'aaa'次數,因為是ip連接,每次會重新給新的?
+                // 所以要在設定credentials:"include",index也要設定 10/18 9點課
+                // 要能傳cookies 需要同網域名稱localhost:3001, localhost:5001
+                // 同來源(orign) (協定 網域 埠號)要一樣
+                // 跨來源 傳session 要做設定,然後網域要一樣
+
+            });
+    </script>
+</body>
+
+</html>
