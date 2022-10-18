@@ -4,7 +4,11 @@ const db = require(__dirname + '/../modules/db_connect2.js');
 const upload = require(__dirname + '/../modules/upload-img')
 
 router.use((req, res, next) => {
-    next();
+    if(req.session.admin && req.session.admin.account){
+        next();
+    } else {
+        res.status(403).send('無權訪問');
+    }
 });
 
 // CRUD
