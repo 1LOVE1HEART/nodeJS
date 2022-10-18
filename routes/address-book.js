@@ -11,6 +11,7 @@ router.use((req, res, next) => {
 
 // 新增資料
 router.get('/add', async (req, res)=>{
+    res.locals.title = '新增資料 | ' + res.locals.title;
     res.render('address-book/add')
 });
 router.post('/add', upload.none(), async (req, res)=>{
