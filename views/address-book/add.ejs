@@ -33,6 +33,8 @@
                                     rows="3"></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary">新增</button>
+                            <input type="hidden" name="test" value="123">
+                            <input type="hidden" name="test" value="456">
                         </form>
                     </div>
                 </div>
@@ -44,14 +46,25 @@
 <%- include('./../parts/scripts') %>
 <script>
     // json
-    function checkForm(evt) {
-        evt.preventDefault();
+    // function checkForm(evt) {
+    //     evt.preventDefault();
 
-        const fd = new FormData(document.form1);
-        for(let [key, value] of fd){
-            console.log({key, value})
-        }
-    }
+    //     const fd = new FormData(document.form1);
+    //     for(let [k, v] of fd){
+    //         console.log({k, v});
+    //         data[k] = v; // 缺點: 不可以有重複名稱的欄位(上面做了2個隱藏同name的input,只會送出最後1個)
+    //     }
+    //     fetch('', {
+    //         method: 'POST',
+    //         body: JSON.stringify(data),
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         }
+    //             }).then(r=>r.json())
+    //             .then(result=>{
+    //             console.log(result);
+    //     })
+    // }
 
 
     // urlencoded
@@ -75,18 +88,20 @@
     // }
 
     // multipart 上傳檔案(照片)就只有這種
-    // function checkForm(evt) {
-    //     evt.preventDefault();
+    function checkForm(evt) {
+        evt.preventDefault();
 
-    //     const fd = new FormData(document.form1);
+        // TODO: 檢查欄位的格式
+        
+        const fd = new FormData(document.form1);
 
-    //     fetch('', {
-    //         method: 'POST',
-    //         body: fd
-    //     }).then(r=>r.json())
-    //     .then(result=>{
-    //         console.log(result);
-    //     })
-    // }
+        fetch('', {
+            method: 'POST',
+            body: fd
+        }).then(r=>r.json())
+        .then(result=>{
+            console.log(result);
+        })
+    }
 </script>
 <%- include('./../parts/html-foot') %>
