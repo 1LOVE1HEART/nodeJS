@@ -8,6 +8,7 @@ const db = require(__dirname + '/modules/db_connect2.js');
 const sessionStore = new MysqlStore({}, db);
 const cors = require('cors');
 const axios = require('axios');
+const { response } = require('express');
 
 
 // const multer = require('multer');
@@ -58,6 +59,9 @@ app.use((req, res, next) => {
 
     next();
 })
+
+
+
 
 // routes↓↓↓↓
 
@@ -257,6 +261,30 @@ app.get('/logout', (req, res)=>{
 app.get('/yahoo', async (req, res)=>{
     const response = await axios.get('https://tw.yahoo.com/');
     res.send(response.data);
+});
+
+
+app.get('/cate', async(req, res) =>{
+    const [rows] = await db.query("SELECT * FROM categories ORDER BY sequence");
+
+    const firsts = [];
+    for(let i of rows){
+        if(i.parent_sid===0){
+            firsts.push(i);
+        }
+    }
+
+    for(let f of firsts){
+        for(let i of rows){
+            if(f.sid===i.parent_sid){
+                f.children ||= [];
+                f.children.push(i)
+            }
+        }
+    }
+
+
+    res.json(firsts);
 });
 
 
