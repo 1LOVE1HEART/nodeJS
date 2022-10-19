@@ -278,15 +278,40 @@ app.get('/cate', async(req, res) =>{
         for(let i of rows){
             if(f.sid===i.parent_sid){
                 f.children ||= [];
-                f.children.push(i)
+                f.children.push(i);
             }
         }
     }
-
-
     res.json(firsts);
 });
 
+
+app.get('/cate2', async(req, res) =>{
+    const [rows] = await db.query("SELECT * FROM categories ORDER BY sequence");
+
+    const dict = {};  
+    // 編輯字典
+    for(let i of rows)  {
+        dict[i.sid] = i;
+    }
+    for(let i of rows)  {
+        if(i.parent_sid!=0){
+            const p = dict[i.parent_sid];
+
+            p.children ||= [];
+            p.children.push(i);
+        }
+    }
+
+    // 將第1層取出來
+    const firsts = [];
+    for(let i of rows){
+        if(i.parent_sid===0){
+            firsts.push(i);
+        }
+    }
+    res.json(dict);
+});
 
 
 app.use((req, res) => {
